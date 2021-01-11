@@ -29,6 +29,7 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
   String apiToken;
   List<dynamic> styles;
   int styleIndex;
+  final double defZoom = 15;
 
   // Geolocator Stream de posición
   StreamSubscription<Position> _positionStreamSubscription;
@@ -288,7 +289,7 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
 ${place.postalCode} ${place.subAdministrativeArea}
 ${place.administrativeArea}""";
     } catch (e) {
-      return """ERROR getAddressFromLatLng
+      return """getAddressFromLatLng ...
 ${xy.latitude} / ${xy.longitude}""";
     }
   }
@@ -298,7 +299,7 @@ ${xy.latitude} / ${xy.longitude}""";
     _mapController = controller;
 
     final result = await getCurrentPosition();
-    animateCamera(result, 15);
+    animateCamera(result, defZoom);
 
     await _mapController.addImage(
         'place_icon', await loadAssetImage('assets/place_24px.png'));
@@ -314,7 +315,7 @@ ${xy.latitude} / ${xy.longitude}""";
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(
         target: posicionActual,
-        zoom: 15,
+        zoom: defZoom,
       ),
       onMapClick: (Point<double> point, LatLng coordinates) async {
         String address = await getAddressFromLatLng(coordinates);
@@ -407,7 +408,7 @@ ${xy.latitude} / ${xy.longitude}""";
           child: Icon(Icons.location_on_sharp),
           onPressed: () async {
             posicionActual = await getCurrentPosition();
-            animateCamera(posicionActual, 15);
+            animateCamera(posicionActual, defZoom);
             _showSeguimiento(posicionActual, data);
           },
         ),
