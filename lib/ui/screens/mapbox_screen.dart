@@ -40,7 +40,7 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
     print('MapBoxScreen initState');
     styleIndex = 0;
     seguimientoCentrado = true;
-    posicionActual = LatLng(0, 0);
+    posicionActual = LatLng(43.34867565860261, -1.7937616145170816); //Plaiaundi
     getCurrentPosition().then((value) {
       setState(() {
         posicionActual = value;
@@ -232,7 +232,7 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
             geometry.longitude,
             data.marcas[i].latitud,
             data.marcas[i].longitud);
-        print(distancia);
+        //print(distancia);
 
         if (cRadius >= distancia) count++;
       }
@@ -288,7 +288,8 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
 ${place.postalCode} ${place.subAdministrativeArea}
 ${place.administrativeArea}""";
     } catch (e) {
-      return e.toString();
+      return """ERROR getAddressFromLatLng
+${xy.latitude} / ${xy.longitude}""";
     }
   }
 
