@@ -43,10 +43,10 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
     seguimientoCentrado = true;
     posicionActual = LatLng(43.34867565860261, -1.7937616145170816); //Plaiaundi
     getCurrentPosition().then((value) {
-      setState(() {
-        posicionActual = value;
-        _showSeguimiento(posicionActual);
-      });
+      //setState(() {
+      posicionActual = value;
+      _showSeguimiento(posicionActual);
+      //});
     });
   }
 
@@ -128,20 +128,20 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
         //_showMarcas(data);
         posicionActual = LatLng(position.latitude, position.longitude);
         _showSeguimiento(posicionActual, data);
-        setState(() {});
+        //setState(() {});
       });
       _positionStreamSubscription.pause();
     }
 
-    setState(() {
-      if (_positionStreamSubscription.isPaused) {
-        // Listening
-        _positionStreamSubscription.resume();
-      } else {
-        // pause
-        _positionStreamSubscription.pause();
-      }
-    });
+    //setState(() {
+    if (_positionStreamSubscription.isPaused) {
+      // Listening
+      _positionStreamSubscription.resume();
+    } else {
+      // pause
+      _positionStreamSubscription.pause();
+    }
+    //});
   }
 
   double degreesToRadians(degrees) {
