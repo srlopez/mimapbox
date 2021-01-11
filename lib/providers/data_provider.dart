@@ -38,4 +38,10 @@ class Data with ChangeNotifier {
     forzarRepintado = true;
     notifyListeners();
   }
+
+  void deleteAt(int index) {
+    marcas.removeAt(index);
+    forzarRepintado = true;
+    notifyListeners();
+  }
 }

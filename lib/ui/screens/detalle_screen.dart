@@ -47,23 +47,27 @@ class DetalleScreen extends StatelessWidget {
                   final longitudeString =
                       data.marcas[index].longitud.toStringAsPrecision(7);
                   return ListTile(
-                      leading: Icon(Icons.location_pin),
-                      title: TextFormField(
-                        // decoration: const InputDecoration(
-                        //     //labelText: 'Nombre',
-                        //     ),
-                        initialValue: data.marcas[index].nombre,
-                        onChanged: (String value) {
-                          data.marcas[index].nombre = value;
-                        },
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.blue[900],
-                            fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text('$latitudeString / $longitudeString',
-                          style: Theme.of(context).textTheme.bodyText2),
-                      trailing: Text("#$index"));
+                    leading: Icon(Icons.location_pin),
+                    title: TextFormField(
+                      // decoration: const InputDecoration(
+                      //     //labelText: 'Nombre',
+                      //     ),
+                      initialValue: data.marcas[index].nombre,
+                      onChanged: (String value) {
+                        data.marcas[index].nombre = value;
+                      },
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.blue[900],
+                          fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text('$latitudeString / $longitudeString',
+                        style: Theme.of(context).textTheme.bodyText2),
+                    trailing: IconButton(
+                        color: Colors.red[700],
+                        icon: Icon(Icons.delete),
+                        onPressed: () => data.deleteAt(index)),
+                  );
                 }),
           ),
         ],
