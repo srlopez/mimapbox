@@ -133,15 +133,16 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
       _positionStreamSubscription.pause();
     }
 
-    //setState(() {
-    if (_positionStreamSubscription.isPaused) {
-      // Listening
-      _positionStreamSubscription.resume();
-    } else {
-      // pause
-      _positionStreamSubscription.pause();
-    }
-    //});
+    setState(() {
+      if (_positionStreamSubscription != null) {
+        if (_positionStreamSubscription.isPaused)
+          // Listening
+          _positionStreamSubscription.resume();
+        else
+          // pause
+          _positionStreamSubscription.pause();
+      }
+    });
   }
 
   double degreesToRadians(degrees) {
@@ -165,6 +166,7 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
   }
 
   void _showMarcas(Data data) async {
+    if (_mapController == null) return;
     //_mapController.clearSymbols();
 
     if (data.forzarRepintado) {
@@ -198,6 +200,8 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
   }
 
   void _showSeguimiento(LatLng geometry, [Data data]) async {
+    if (_mapController == null) return;
+    if (_mapController.symbols == null) return;
     _mapController.symbols
         .where((s) => s.data['tipo'] == 'seguimiento')
         .forEach((s) => _mapController.removeSymbol(s));
@@ -240,6 +244,7 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
       if (count > 0) {
         gColor = '#c53700';
         gOpacity = 0.4 + count / 10;
+        count = 0;
       }
     }
 
@@ -276,6 +281,13 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
       CameraUpdate.newLatLng(geometry),
     );
     if (zoom != null) _mapController.animateCamera(CameraUpdate.zoomTo(zoom));
+  }
+
+  void moveCamera(LatLng geometry, zoom) async {
+    await _mapController.moveCamera(
+      CameraUpdate.newLatLngZoom(geometry, zoom),
+    );
+    _showSeguimiento(geometry);
   }
 
   // Obtiene la dirección de una latLng
@@ -408,8 +420,8 @@ ${xy.latitude} / ${xy.longitude}""";
           child: Icon(Icons.location_on_sharp),
           onPressed: () async {
             posicionActual = await getCurrentPosition();
-            animateCamera(posicionActual, defZoom);
-            _showSeguimiento(posicionActual, data);
+            moveCamera(posicionActual, defZoom);
+            //_showSeguimiento(posicionActual, data);
           },
         ),
       ],
