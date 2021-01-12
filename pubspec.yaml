@@ -45,6 +45,10 @@ dev_dependencies:
   # A package which simplifies the task of updating your Flutter app's launcher icon.
   flutter_launcher_icons: ^0.8.1
 
+# run en consola
+# flutter pub run flutter_launcher_icons:main -f pubspec.yaml
+# flutter pub run flutter_launcher_icons:main
+
 flutter_icons:
   android: "launcher_icon"
   ios: true
