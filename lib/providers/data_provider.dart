@@ -15,6 +15,7 @@ class Data with ChangeNotifier {
   // Capturados en geolocator
   List<Marca> marcas = <Marca>[];
   bool forzarRepintado = false;
+  bool marcasVisibles = false;
 
   Data({this.controller}) {
     controller.getAll().then((value) => marcas = value);

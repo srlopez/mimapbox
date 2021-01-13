@@ -78,7 +78,8 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
                 if (snapshot.hasData) {
                   apiToken = snapshot.data['mapbox_api_token'];
                   styles = snapshot.data['mapbox_style_url'];
-                  return showMapaWidget(context, data);
+                  var map = showMapaWidget(context, data);
+                  return map;
                 } else {
                   return Center(
                     child: Column(
@@ -125,7 +126,7 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
         _positionStreamSubscription.cancel();
         _positionStreamSubscription = null;
       }).listen((position) {
-        //_showMarcas(data);
+        if (!data.marcasVisibles) _showMarcas(data);
         posicionActual = LatLng(position.latitude, position.longitude);
         _showSeguimiento(posicionActual, data);
         //setState(() {});
@@ -166,6 +167,7 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
   }
 
   void _showMarcas(Data data) async {
+    print('_showMarcas ${_mapController == null} ${data.forzarRepintado}');
     if (_mapController == null) return;
     //_mapController.clearSymbols();
 
@@ -197,6 +199,8 @@ class _MapBoxScreenState extends State<MapBoxScreen> {
         {'tipo': 'milugar'},
       );
     });
+
+    data.marcasVisibles = true;
   }
 
   void _showSeguimiento(LatLng geometry, [Data data]) async {
@@ -320,8 +324,6 @@ ${xy.latitude} / ${xy.longitude}""";
   }
 
   Widget showMapaWidget(BuildContext context, Data data) {
-    _showMarcas(data);
-
     _map = MapboxMap(
       styleString: styles[styleIndex],
       onMapCreated: _onMapCreated,
@@ -346,6 +348,7 @@ ${xy.latitude} / ${xy.longitude}""";
         data.add(coordinates.latitude, coordinates.longitude);
       },
     );
+    _showMarcas(data);
 
     return _map;
   }
@@ -421,6 +424,8 @@ ${xy.latitude} / ${xy.longitude}""";
           onPressed: () async {
             posicionActual = await getCurrentPosition();
             moveCamera(posicionActual, defZoom);
+            if (!data.marcasVisibles) _showMarcas(data);
+
             //_showSeguimiento(posicionActual, data);
           },
         ),
