@@ -22,15 +22,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0-nullsafety.1"
-  baseflow_plugin_template:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: "v1.0.0"
-      resolved-ref: "25b49d91bd66873a0a6882d6be57eb33a3505785"
-      url: "git://github.com/Baseflow/baseflow_plugin_template.git"
-    source: git
-    version: "0.0.1"
   boolean_selector:
     dependency: transitive
     description:
